@@ -3,764 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Georgehan - 个人主页</title>
+    <title>个人网站 - Georgehan</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-blur: 20px;
-            --accent: #e84393;
-            --accent-glow: rgba(232, 67, 147, 0.35);
-            --text-primary: #f0f0f0;
-            --text-secondary: rgba(255, 255, 255, 0.6);
-            --grid-gap: 16px;
-        }
-
-        /* ===== NAVBAR ===== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.7);
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
-            border-bottom: 1px solid var(--glass-border);
-            z-index: 1000;
-            padding: 0.75rem 0;
-            transition: all 0.3s ease;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo .logo-text {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: -0.02em;
-        }
-
-        .nav-logo .logo-text::before {
-            content: '//';
-            color: var(--accent);
-            margin-right: 0.5rem;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 0.25rem;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-link:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .nav-link::after {
-            display: none;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .nav-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .bar {
-            width: 22px;
-            height: 2px;
-            background: #fff;
-            margin: 3px 0;
-            border-radius: 2px;
-            transition: 0.3s;
-        }
-
-        /* ===== HERO GRID ===== */
-        #home.hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            padding: 6rem 2rem 2rem;
-        }
-
-        .hero-background {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-        }
-
-        .particles {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* grid layout */
-        .hero-grid {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: 1fr 1.6fr 1fr;
-            grid-template-rows: auto auto;
-            gap: var(--grid-gap);
-            max-width: 1100px;
-            width: 100%;
-        }
-
-        /* glass card base */
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--glass-blur)) saturate(180%);
-            -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-        }
-
-        .glass:hover {
-            border-color: rgba(232, 67, 147, 0.25);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(232, 67, 147, 0.08);
-            transform: translateY(-2px);
-        }
-
-        /* -- grid cells -- */
-        .grid-avatar {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            gap: 1.2rem;
-            grid-column: 1;
-            grid-row: 1 / 3;
-        }
-
-        .grid-avatar .user-avatar {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--accent);
-            box-shadow: 0 0 30px var(--accent-glow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .grid-avatar .user-avatar:hover {
-            transform: scale(1.06);
-            box-shadow: 0 0 50px var(--accent-glow);
-        }
-
-        .grid-avatar h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .grid-avatar p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .grid-main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            grid-column: 2;
-            grid-row: 1 / 3;
-            gap: 1.2rem;
-        }
-
-        .grid-main h1 {
-            font-size: clamp(2.4rem, 5vw, 3.6rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            background: linear-gradient(135deg, #fff 30%, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.15;
-        }
-
-        .grid-main .subtitle {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: var(--accent);
-        }
-
-        .grid-main .tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .grid-main .tags span {
-            font-size: 0.78rem;
-            color: var(--text-secondary);
-            padding: 0.35rem 0.85rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .grid-main .tags span:hover {
-            background: rgba(232, 67, 147, 0.12);
-            border-color: rgba(232, 67, 147, 0.3);
-            color: #fff;
-        }
-
-        .grid-img {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            grid-column: 3;
-            grid-row: 1 / 3;
-        }
-
-        .grid-img img {
-            width: 220px;
-            height: 320px;
-            object-fit: cover;
-            border-radius: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-            transition: transform 0.4s ease;
-        }
-
-        .grid-img img:hover {
-            transform: scale(1.03) rotate(-1deg);
-        }
-
-        .grid-img .img-label {
-            margin-top: 1rem;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #fff;
-        }
-
-        /* scroll indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 3;
-        }
-
-        .scroll-arrow {
-            width: 26px;
-            height: 26px;
-            border-right: 2px solid var(--accent);
-            border-bottom: 2px solid var(--accent);
-            transform: rotate(45deg);
-            animation: bounce 2s infinite;
-            opacity: 0.6;
-        }
-
-        @keyframes bounce {
-            0%,20%,50%,80%,100% { transform: rotate(45deg) translateY(0); }
-            40% { transform: rotate(45deg) translateY(-8px); }
-            60% { transform: rotate(45deg) translateY(-4px); }
-        }
-
-        /* ===== ABOUT ===== */
-        #about {
-            padding: 5rem 0;
-        }
-
-        #about .section-title,
-        #games .section-title,
-        #bindings .section-title,
-        #contact .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 2.5rem;
-            color: #fff;
-            letter-spacing: -0.02em;
-        }
-
-        #about .section-title::before,
-        #games .section-title::before,
-        #bindings .section-title::before,
-        #contact .section-title::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            margin-right: 0.75rem;
-            vertical-align: middle;
-            box-shadow: 0 0 12px var(--accent-glow);
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1.8fr 1fr;
-            gap: 2rem;
-            align-items: start;
-        }
-
-        .about-text {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .about-text h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .about-text p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.75;
-        }
-
-        .about-stats {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .stat {
-            flex: 1;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 1.2rem 0.8rem;
-            transition: all 0.3s ease;
-        }
-
-        .stat:hover {
-            border-color: rgba(232, 67, 147, 0.3);
-            background: rgba(232, 67, 147, 0.06);
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--accent);
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 0.78rem;
-            color: var(--text-secondary);
-            margin-top: 0.4rem;
-        }
-
-        .floating-card {
-            padding: 1.5rem;
-        }
-
-        .card-content h4 {
-            color: var(--accent);
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
-
-        .card-content ul {
-            list-style: none;
-        }
-
-        .card-content li {
-            padding: 0.55rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .card-content li:last-child {
-            border-bottom: none;
-        }
-
-        /* ===== GAMES ===== */
-        #games {
-            padding: 5rem 0;
-        }
-
-        .games-intro {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-        }
-
-        .games-intro p {
-            font-size: 0.95rem;
-            line-height: 1.75;
-            color: var(--text-secondary);
-        }
-
-        .horizontal-cards-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--grid-gap);
-        }
-
-        .card {
-            min-width: 0;
-            height: 360px;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        .card:hover .card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-front,
-        .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 20px;
-            overflow: hidden;
-        }
-
-        .card-front {
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--glass-blur)) saturate(180%);
-            -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
-            border: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            transition: border-color 0.3s;
-        }
-
-        .card:hover .card-front {
-            border-color: rgba(232, 67, 147, 0.3);
-        }
-
-        .card-front .card-content i {
-            font-size: 3rem;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-        }
-
-        .card-front .card-content h3 {
-            font-size: 1.4rem;
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-front .card-content p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .card-back {
-            background: rgba(20, 20, 20, 0.92);
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
-            transform: rotateY(180deg);
-            border: 1px solid rgba(232, 67, 147, 0.2);
-            padding: 1.8rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .card-back .card-content h3 {
-            font-size: 1.2rem;
-            color: #fff;
-            margin-bottom: 0.8rem;
-        }
-
-        .card-back .card-content p {
-            font-size: 0.88rem;
-            line-height: 1.65;
-            color: var(--text-secondary);
-            margin-bottom: 1.2rem;
-        }
-
-        .game-details {
-            margin-bottom: 1rem;
-        }
-
-        .detail-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.4rem;
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-        }
-
-        .detail-item i {
-            color: var(--accent);
-        }
-
-        .game-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-        }
-
-        .tag {
-            background: rgba(232, 67, 147, 0.1);
-            color: rgba(255, 255, 255, 0.8);
-            padding: 0.25rem 0.7rem;
-            border-radius: 16px;
-            font-size: 0.75rem;
-            border: 1px solid rgba(232, 67, 147, 0.2);
-            transition: all 0.2s ease;
-        }
-
-        .tag:hover {
-            background: rgba(232, 67, 147, 0.2);
-        }
-
-        /* ===== BINDINGS ===== */
-        #bindings {
-            padding: 5rem 0;
-        }
-
-        .bindings-hint {
-            text-align: center;
-            color: #666;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-
-        .bindings-hint.admin-active {
-            color: var(--accent);
-            font-weight: 500;
-        }
-
-        .bindings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: var(--grid-gap);
-        }
-
-        /* ===== CONTACT ===== */
-        #contact {
-            padding: 5rem 0;
-        }
-
-        .partner-content {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 2rem;
-            align-items: start;
-        }
-
-        .partner-info h3 {
-            font-size: 1.3rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-
-        .partner-info p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.75;
-            margin-bottom: 1.5rem;
-        }
-
-        .partner-details {
-            margin-bottom: 1.5rem;
-        }
-
-        .partner-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .partner-item i {
-            color: var(--accent);
-        }
-
-        .game-list h4 {
-            color: var(--accent);
-            margin-bottom: 0.75rem;
-            font-size: 0.95rem;
-        }
-
-        .game-list p {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            font-size: 0.9rem;
-        }
-
-        .partner-form {
-            padding: 1.8rem;
-        }
-
-        .partner-form h4 {
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        .partner-form ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .partner-form li {
-            padding: 0.65rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .partner-form li strong {
-            color: #fff;
-            min-width: 40px;
-        }
-
-        .partner-form li:last-child {
-            border-bottom: none;
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid var(--glass-border);
-            padding: 2rem 0;
-            text-align: center;
-        }
-
-        .footer-content p {
-            color: #666;
-            font-size: 0.85rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-
-        .footer-links span {
-            color: #333;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 900px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto;
-                max-width: 420px;
-            }
-            .grid-avatar {
-                grid-column: 1;
-                grid-row: auto;
-            }
-            .grid-main {
-                grid-column: 1;
-                grid-row: auto;
-            }
-            .grid-img {
-                grid-column: 1;
-                grid-row: auto;
-            }
-            .grid-main h1 { font-size: 2.2rem; }
-            .grid-avatar .user-avatar { width: 120px; height: 120px; }
-            .grid-img img { width: 180px; height: 260px; }
-            .about-content { grid-template-columns: 1fr; }
-            .partner-content { grid-template-columns: 1fr; }
-            .horizontal-cards-container { grid-template-columns: 1fr; }
-            .card { height: 340px; }
-        }
-
-        @media (max-width: 768px) {
-            .nav-menu {
-                position: fixed;
-                top: 60px;
-                left: -100%;
-                width: 100%;
-                background: rgba(10, 10, 10, 0.96);
-                backdrop-filter: blur(30px);
-                -webkit-backdrop-filter: blur(30px);
-                flex-direction: column;
-                text-align: center;
-                transition: 0.3s;
-                padding: 2rem 0;
-                border-bottom: 1px solid var(--glass-border);
-            }
-            .nav-menu.active { left: 0; }
-            .nav-toggle { display: flex; }
-            .about-stats { flex-direction: column; gap: 0.8rem; }
-            .bindings-grid { grid-template-columns: 1fr; }
-        }
-    </style>
 </head>
 <body>
     <!-- 加载动画 -->
@@ -777,14 +23,24 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <span class="logo-text">Georgehan</span>
+                <span class="logo-text">个人网站 - Georgehan</span>
             </div>
             <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">首页</a></li>
-                <li><a href="#about" class="nav-link">关于我</a></li>
-                <li><a href="#games" class="nav-link">游戏</a></li>
-                <li><a href="#bindings" class="nav-link">账号</a></li>
-                <li><a href="#contact" class="nav-link">联系</a></li>
+                <li class="nav-item">
+                    <a href="#home" class="nav-link">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">关于我</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#games" class="nav-link">游戏方面~</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#bindings" class="nav-link">游戏账号</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">联系</a>
+                </li>
             </ul>
             <div class="nav-right">
                 <div class="nav-admin" id="navAdmin">
@@ -805,57 +61,75 @@
         </div>
     </nav>
 
-    <!-- 首页 - 井字格 Hero -->
+    <!-- 首页区域 - 三等分布局 -->
     <section id="home" class="hero">
         <div class="hero-background">
             <div class="particles" id="particles-js"></div>
         </div>
+        
+        <!-- 三等分布局 -->
+        <div class="three-column-layout">
+            <div class="layout-container">
+                <div class="layout-row">
+                    <!-- 第一份：用户头像 -->
+                    <div class="layout-column">
+                        <div class="column-content">
+                            <img src="User_/user.png" alt="George Han - 探月学校G10学生" class="column-image user-avatar">
+                            <div class="column-text">
+                                <h3>George Han</h3>
+                                <p>探月学校G10学生</p>
+                            </div>
+                        </div>
+                    </div>
 
-        <div class="hero-grid">
-            <!-- 左列: 头像 + 名字 -->
-            <div class="glass grid-avatar">
-                <img src="User_/user.png" alt="George Han" class="user-avatar">
-                <h3>George Han</h3>
-                <p>探月学校G10学生</p>
-            </div>
+                    <!-- 第三份：标题和描述 -->
+                    <div class="layout-column">
+                        <div class="column-content">
+                            <div class="hero-text">
+                                <h1>Georgehan</h1>
+                                <p>开发者</p>
+                                <div class="hero-subtitle">
+                                    <span>热爱游戏开发</span>
+                                    <span>擅长团队协作</span>
+                                    <span>追求技术创新</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- 中列: 大标题 + 标签 -->
-            <div class="glass grid-main">
-                <h1>Georgehan</h1>
-                <p class="subtitle">开发者</p>
-                <div class="tags">
-                    <span>热爱游戏开发</span>
-                    <span>擅长团队协作</span>
-                    <span>追求技术创新</span>
+                    <!-- 第二份：白子酱图片 -->
+                    <div class="layout-column">
+                        <div class="column-content">
+                            <img src="User_/白子酱~.jpg" alt="白子酱" class="column-image main-image">
+                            <div class="column-text">
+                                <h3>白子酱</h3>
+                               
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- 右列: 白子酱 -->
-            <div class="glass grid-img">
-                <img src="User_/白子酱~.jpg" alt="白子酱">
-                <div class="img-label">白子酱</div>
-            </div>
         </div>
-
+        
         <div class="scroll-indicator">
             <div class="scroll-arrow"></div>
         </div>
     </section>
 
-    <!-- 关于我 -->
+    <!-- 关于我区域 -->
     <section id="about" class="about">
         <div class="container">
             <h2 class="section-title">关于我</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <h3>探月学校G10学生「GeorgeHan」</h3>
+                    <h3>探月学校G10学生 「 GeorgeHan 」</h3>
                     <p>我是来自探月学校的一名G10学生，热爱编程和游戏开发。参加过3场黑客松比赛，在M48第一届和第三届中获得了三等奖，在AdventureX-杭州比赛中获得了GCC一等奖。除了编程，我还是一个狂热的游戏玩家，如果你也玩这些游戏，或许我们可以搭个伴~</p>
-                    <p>在编程方面，我会使用Java, C++, Python, Android, C#，更擅长Java与JavaScript语言，对Web开发和游戏开发有浓厚兴趣。希望通过不断学习，能够创造出更多有趣的项目。</p>
-                    <p>在设计方面，我会使用Figma, SolidWorks, Onshape工具，对UI/工业设计/建模设计有一定的理解和经验。</p>
+                    <p>在编程方面，我会使用Java,C++,Python,Android,C#,更擅长Java与JavaScript语言，对Web开发和游戏开发有浓厚兴趣。希望通过不断学习，能够创造出更多有趣的项目。</p>
+                    <p>在设计方面，我会使用Figma，SolidWorks,Onshape工具，对UI/工业设计/建模设计有一定的理解和经验。</p>
                     <div class="about-stats">
                         <div class="stat">
                             <div class="stat-number">3</div>
-                            <div class="stat-label">黑客松参赛</div>
+                            <div class="stat-label">黑客松参赛次数</div>
                         </div>
                         <div class="stat">
                             <div class="stat-number">2</div>
@@ -868,15 +142,15 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <div class="glass floating-card">
+                    <div class="floating-card">
                         <div class="card-content">
                             <h4>游戏方面</h4>
                             <ul>
-                                <li>碧蓝档案 — 主厨:白子;伊吕波</li>
+                                <li>碧蓝档案-主厨:白子;伊吕波</li>
                                 <li>Minecraft</li>
-                                <li>CSGO / CS2</li>
+                                <li>CSGO/CS2</li>
                                 <li>崩坏星穹铁道</li>
-                                <li>Rainbow 6</li>
+                                <li>RainBow 6</li>
                                 <li>战地2042</li>
                                 <li>绝地潜兵2</li>
                                 <li>PayDay2</li>
@@ -889,18 +163,23 @@
         </div>
     </section>
 
-    <!-- 游戏方面 -->
+    <!-- 我的游戏世界 - 合并后的游戏展示区域 -->
     <section id="games" class="games">
         <div class="container">
             <h2 class="section-title">游戏方面~</h2>
+            
+            <!-- 游戏介绍文本 -->
             <div class="games-intro">
                 <p>欢迎来到关于我玩的游戏部分！这里展示了我热爱的各种游戏，从二次元入门到FPS精通，从沙盒建造到战术竞技。每个游戏都有独特的魅力和玩法，让我体验到在不同世界观中的不同游戏体验。</p>
                 <p>如果你也玩这些游戏，或许我们可以搭个伴~</p>
             </div>
+            
+            <!-- 静态网格卡片容器 -->
             <div class="horizontal-cards-container">
-                <!-- 碧蓝档案 -->
+                <!-- 碧蓝档案卡片 -->
                 <div class="card flip-card" data-card-index="0">
                     <div class="card-inner">
+                        <!-- 卡片正面 -->
                         <div class="card-front">
                             <div class="card-content">
                                 <i class="fas fa-gamepad"></i>
@@ -908,6 +187,7 @@
                                 <p>二次元策略游戏</p>
                             </div>
                         </div>
+                        <!-- 卡片背面 -->
                         <div class="card-back">
                             <div class="card-content">
                                 <h3>碧蓝档案</h3>
@@ -915,6 +195,9 @@
                                 <div class="game-details">
                                     <div class="detail-item">
                                         <span>游戏时长：300+小时</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span></span>
                                     </div>
                                 </div>
                                 <div class="game-tags">
@@ -927,9 +210,10 @@
                     </div>
                 </div>
 
-                <!-- Minecraft -->
+                <!-- Minecraft卡片 -->
                 <div class="card flip-card" data-card-index="1">
                     <div class="card-inner">
+                        <!-- 卡片正面 -->
                         <div class="card-front">
                             <div class="card-content">
                                 <i class="fas fa-cube"></i>
@@ -937,6 +221,7 @@
                                 <p>沙盒建造游戏</p>
                             </div>
                         </div>
+                        <!-- 卡片背面 -->
                         <div class="card-back">
                             <div class="card-content">
                                 <h3>Minecraft</h3>
@@ -961,9 +246,10 @@
                     </div>
                 </div>
 
-                <!-- FPS -->
+                <!-- FPS射击游戏卡片 -->
                 <div class="card flip-card" data-card-index="2">
                     <div class="card-inner">
+                        <!-- 卡片正面 -->
                         <div class="card-front">
                             <div class="card-content">
                                 <i class="fas fa-crosshairs"></i>
@@ -971,10 +257,11 @@
                                 <p>战术竞技游戏</p>
                             </div>
                         </div>
+                        <!-- 卡片背面 -->
                         <div class="card-back">
                             <div class="card-content">
                                 <h3>FPS射击游戏合集</h3>
-                                <p>CSGO、R6、战地2042、绝地潜兵2、PayDay2、暗区突围等战术射击，擅长团队配合和战术执行。</p>
+                                <p>CSGO、R6、战地2042、绝地潜兵2、PayDay2、暗区突围和平精英、CODM等战术射击，擅长团队配合和战术执行。</p>
                                 <div class="game-details">
                                     <div class="detail-item">
                                         <i class="fas fa-clock"></i>
@@ -982,7 +269,7 @@
                                     </div>
                                     <div class="detail-item">
                                         <i class="fas fa-trophy"></i>
-                                        <span>擅长：团队配合、战术执行</span>
+                                        <span>擅长：团队配合、战术执行、狙击位</span>
                                     </div>
                                 </div>
                                 <div class="game-tags">
@@ -999,7 +286,7 @@
         </div>
     </section>
 
-    <!-- 游戏账号绑定 -->
+    <!-- 游戏账号绑定区域 -->
     <section id="bindings" class="bindings">
         <div class="container">
             <h2 class="section-title">游戏账号绑定</h2>
@@ -1010,7 +297,7 @@
         </div>
     </section>
 
-    <!-- 联系 -->
+    <!-- 联系区域 -->
     <section id="contact" class="partner">
         <div class="container">
             <h2 class="section-title">联系我~</h2>
@@ -1020,15 +307,12 @@
                     <p>如果你也玩这些游戏，或许我们可以搭个伴~ 无论是二次元，还是FPS，我都欢迎新的游戏伙伴！</p>
                     <div class="partner-details">
                         <div class="partner-item">
-                            <i class="fas fa-gamepad"></i>
                             <span>主要游戏：碧蓝档案、Minecraft、CSGO</span>
                         </div>
                         <div class="partner-item">
-                            <i class="fas fa-star"></i>
                             <span>擅长：策略游戏、团队配合、建筑创作</span>
                         </div>
                         <div class="partner-item">
-                            <i class="fas fa-users"></i>
                             <span>游戏风格：团队协作、战术规划</span>
                         </div>
                     </div>
@@ -1037,12 +321,12 @@
                         <p>碧蓝档案、Minecraft、CSGO、崩坏星穹铁道、R6、战地2042、绝地潜兵2、PayDay2、暗区突围、三角洲、逃离塔科夫、和平精英、CODM</p>
                     </div>
                 </div>
-                <div class="glass partner-form">
+                <div class="partner-form">
                     <h4>联系我~</h4>
-                    <ul>
-                        <li><strong>微信</strong> Georgehan_wechat</li>
-                        <li><strong>QQ</strong> 1653711243</li>
-                        <li><strong>邮箱</strong> GeorgeGaoHan@outlook.com</li>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><strong>微信:</strong> Georgehan_wechat</li>
+                        <li><strong>QQ:</strong> 1653711243</li>
+                        <li><strong>邮箱:</strong> GeorgeGaoHan@outlook.com</li>
                     </ul>
                 </div>
             </div>
@@ -1053,19 +337,20 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <p>&copy; 2025 Georgehan - 探月学校G10学生 | 游戏爱好者</p>
+                <p>&copy; 2025 白子酱 - 探月学校G10学生 | 游戏爱好者</p>
                 <div class="footer-links">
                     <a href="#home">回到顶部</a>
                     <span>|</span>
-                    <a href="#games">游戏</a>
+                    <a href="#games">游戏方面~</a>
                     <span>|</span>
-                    <a href="#bindings">账号</a>
+                    <a href="#bindings">游戏账号</a>
                     <span>|</span>
                     <a href="#contact">联系</a>
                 </div>
             </div>
         </div>
     </footer>
+
 
     <script src="script.js"></script>
 </body>
