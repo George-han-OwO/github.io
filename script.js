@@ -385,20 +385,7 @@ const GAMES_CONFIG = [
             { key: 'note', label: '备注', type: 'textarea', placeholder: '可选' }
         ]
     },
-    {
-        id: 'arknights',
-        name: '明日方舟',
-        icon: 'fa-shield-alt',
-        color: '#e74c3c',
-        fields: [
-            { key: 'account', label: '游戏账号/角色名', type: 'text' },
-            { key: 'uid', label: 'UID', type: 'text' },
-            { key: 'server', label: '区服', type: 'text', placeholder: '如:官服/B服' },
-            { key: 'level', label: '等级', type: 'text' },
-            { key: 'progress', label: '练度/进度', type: 'text' },
-            { key: 'note', label: '备注', type: 'textarea' }
-        ]
-    },
+
     {
         id: 'endfield',
         name: '明日方舟：终末地',
@@ -413,20 +400,7 @@ const GAMES_CONFIG = [
             { key: 'note', label: '备注', type: 'textarea' }
         ]
     },
-    {
-        id: 'firefly',
-        name: '萤火突击',
-        icon: 'fa-fire',
-        color: '#f39c12',
-        fields: [
-            { key: 'account', label: '游戏账号/角色名', type: 'text' },
-            { key: 'uid', label: 'UID', type: 'text' },
-            { key: 'server', label: '区服', type: 'text' },
-            { key: 'rank', label: '段位', type: 'text' },
-            { key: 'gear', label: '装备/武器', type: 'text' },
-            { key: 'note', label: '备注', type: 'textarea' }
-        ]
-    },
+
     {
         id: 'deltaforce',
         name: '三角洲行动',
@@ -438,34 +412,6 @@ const GAMES_CONFIG = [
             { key: 'server', label: '区服', type: 'text' },
             { key: 'rank', label: '段位', type: 'text' },
             { key: 'gearScore', label: '战备等级', type: 'text' },
-            { key: 'note', label: '备注', type: 'textarea' }
-        ]
-    },
-    {
-        id: 'reverse1999',
-        name: '重返未来：1999',
-        icon: 'fa-clock-rotate-left',
-        color: '#8e44ad',
-        fields: [
-            { key: 'account', label: '游戏账号/角色名', type: 'text' },
-            { key: 'uid', label: 'UID', type: 'text' },
-            { key: 'server', label: '区服', type: 'text' },
-            { key: 'level', label: '等级', type: 'text' },
-            { key: 'progress', label: '进度', type: 'text' },
-            { key: 'note', label: '备注', type: 'textarea' }
-        ]
-    },
-    {
-        id: 'bluearchive',
-        name: '碧蓝档案',
-        icon: 'fa-book-open',
-        color: '#3498db',
-        fields: [
-            { key: 'account', label: '游戏账号/角色名', type: 'text' },
-            { key: 'uid', label: 'UID', type: 'text' },
-            { key: 'server', label: '区服', type: 'text' },
-            { key: 'level', label: '等级', type: 'text' },
-            { key: 'progress', label: '练度/进度', type: 'text' },
             { key: 'note', label: '备注', type: 'textarea' }
         ]
     },

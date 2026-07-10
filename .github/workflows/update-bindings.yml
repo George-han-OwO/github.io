@@ -1,0 +1,47 @@
+name: Update Game Bindings
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天 UTC 0点 (北京时间 8点)
+  workflow_dispatch:  # 手动触发
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install requests
+          pip install aiohttp pydantic
+          pip install pycryptodome
+      
+      - name: Update Steam data
+        env:
+          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+        run: python scripts/update_steam.py
+      
+      - name: Update Endfield data
+        run: python scripts/update_endfield.py
+      
+      - name: Update Yi Huan data
+        env:
+          YIHUAN_TOKEN: ${{ secrets.YIHUAN_TOKEN }}
+        run: python scripts/update_yihuan.py
+      
+      - name: Update Delta Force data
+        run: python scripts/update_deltaforce.py
+      
+      - name: Commit and push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add bindings.json
+          git diff --staged --quiet || git commit -m "Auto-update game bindings [$(date +'%Y-%m-%d')]"
+          git push

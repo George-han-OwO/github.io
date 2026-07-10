@@ -1,11 +1,41 @@
 {
-    "yihuan": {},
-    "arknights": {},
-    "endfield": {},
-    "firefly": {},
-    "deltaforce": {},
-    "reverse1999": {},
-    "bluearchive": {},
-    "csgo": {},
-    "steam": {}
+    "yihuan": {
+        "account": "",
+        "uid": "",
+        "server": "",
+        "level": "",
+        "progress": "",
+        "lastSync": null
+    },
+    "endfield": {
+        "account": "",
+        "uid": "1574994927",
+        "server": "",
+        "level": "",
+        "progress": "",
+        "lastSync": null
+    },
+    "deltaforce": {
+        "account": "",
+        "uid": "",
+        "server": "",
+        "rank": "",
+        "gearScore": "",
+        "lastSync": null
+    },
+    "csgo": {
+        "steamId": "76561199066644628",
+        "csgoHours": "",
+        "rank": "",
+        "primaryWeapon": "",
+        "lastSync": null
+    },
+    "steam": {
+        "steamId": "76561199066644628",
+        "steamName": "",
+        "profileUrl": "",
+        "avatarUrl": "",
+        "totalGames": "",
+        "lastSync": null
+    }
 }
