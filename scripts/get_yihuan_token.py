@@ -33,6 +33,8 @@ TAJIDUO_BASE_URL = "https://bbs-api.tajiduo.com"
 TAJIDUO_USER_CENTER_APP_ID = "10551"
 TAJIDUO_USER_AGENT = "okhttp/4.12.0"
 TAJIDUO_APP_VERSION = "1.2.2"
+TAJIDUO_DS_SALT = "pUds3dfMkl"
+TAJIDUO_DS_NONCE_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 
 # AES 密钥 (老虎 app_key 最后16位)
 AES_KEY = LAOHU_APP_KEY[-16:]
@@ -55,6 +57,15 @@ def sign_params(params):
     """MD5 签名"""
     raw = "".join(params[key] for key in sorted(params)) + LAOHU_APP_KEY
     return hashlib.md5(raw.encode()).hexdigest()
+
+
+def ds_sign():
+    """塔吉多 DS 签名"""
+    import random
+    ts = str(int(time.time()))
+    nonce = "".join(random.choice(TAJIDUO_DS_NONCE_ALPHABET) for _ in range(8))
+    raw = f"{ts}{nonce}{TAJIDUO_APP_VERSION}{TAJIDUO_DS_SALT}"
+    return f"{ts},{nonce},{hashlib.md5(raw.encode()).hexdigest()}"
 
 
 def get_common_fields(device_id, use_millis=False):
@@ -152,6 +163,7 @@ def exchange_token(laohu_token, laohu_user_id, device_id):
         "appversion": TAJIDUO_APP_VERSION,
         "uid": "0",
         "authorization": "",
+        "ds": ds_sign(),
     }
 
     data = {
@@ -174,6 +186,7 @@ def exchange_token(laohu_token, laohu_user_id, device_id):
             return access_token
         else:
             print(f"换取失败: {result.get('msg', '未知错误')}")
+            print(f"响应: {result}")
             return None
     except Exception as e:
         print(f"换取失败: {e}")
