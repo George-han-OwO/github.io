@@ -25,17 +25,18 @@
     },
     "csgo": {
         "steamId": "76561199066644628",
-        "csgoHours": "",
+        "csgoHours": "1457",
         "rank": "",
         "primaryWeapon": "",
-        "lastSync": null
+        "lastSync": "2026-07-10T16:55:53.011471Z"
     },
     "steam": {
         "steamId": "76561199066644628",
-        "steamName": "",
-        "profileUrl": "",
-        "avatarUrl": "",
-        "totalGames": "",
-        "lastSync": null
+        "steamName": "是白子酱呢~",
+        "profileUrl": "https://steamcommunity.com/id/George_Gao/",
+        "avatarUrl": "https://avatars.steamstatic.com/bdaa444dfd64931710f15ac5a700ad63baa16c73_full.jpg",
+        "totalGames": "45",
+        "lastSync": "2026-07-10T16:55:53.011064Z",
+        "csgoHours": "1457"
     }
 }
