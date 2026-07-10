@@ -11,86 +11,162 @@
 """
 
 import json
-import requests
-from Crypto.Cipher import AES
-import base64
 import time
+import uuid
+import hashlib
+import requests
+from base64 import b64encode
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
 
-# 老虎平台 API
-LAOHU_SMS_URL = "https://user.laohu.com/openApi/sms/new/send"
-LAOHU_LOGIN_URL = "https://user.laohu.com/openApi/sms/new/login"
+# 老虎平台配置
+LAOHU_BASE_URL = "https://user.laohu.com"
+LAOHU_APP_ID = 10550
+LAOHU_APP_KEY = "89155cc4e8634ec5b1b6364013b23e3e"
+LAOHU_SDK_VERSION = "4.273.0"
+LAOHU_USER_AGENT = "okhttp/4.9.0"
+LAOHU_DEFAULT_PACKAGE = "com.pwrd.htassistant"
+LAOHU_DEFAULT_VERSION_CODE = 12
 
-# 塔吉多 API
-TAJIDUO_LOGIN_URL = "https://bbs-api.tajiduo.com/usercenter/api/login"
+# 塔吉多配置
+TAJIDUO_BASE_URL = "https://bbs-api.tajiduo.com"
+TAJIDUO_USER_CENTER_APP_ID = "10551"
+TAJIDUO_USER_AGENT = "okhttp/4.12.0"
+TAJIDUO_APP_VERSION = "1.2.2"
 
-# AES-ECB 加密密钥 (老虎平台使用固定密钥)
-AES_KEY = "wG1m3Mj7pRq8vN2x"
+# AES 密钥 (老虎 app_key 最后16位)
+AES_KEY = LAOHU_APP_KEY[-16:]
 
 
-def aes_ecb_encrypt(text, key):
+def aes_ecb_encrypt(text):
     """AES-ECB 加密"""
-    cipher = AES.new(key.encode('utf-8'), AES.MODE_ECB)
+    cipher = AES.new(AES_KEY.encode('utf-8'), AES.MODE_ECB)
     padded = text + (16 - len(text) % 16) * chr(16 - len(text) % 16)
     encrypted = cipher.encrypt(padded.encode('utf-8'))
-    return base64.b64encode(encrypted).decode('utf-8')
+    return b64encode(encrypted).decode('utf-8')
 
 
-def send_sms(phone):
-    """发送短信验证码"""
-    encrypted_phone = aes_ecb_encrypt(phone, AES_KEY)
-    data = {
-        "mobile": encrypted_phone,
-        "areaCode": "86"
+def generate_device_id():
+    """生成设备 ID"""
+    return "HT" + uuid.uuid4().hex[:14].upper()
+
+
+def sign_params(params):
+    """MD5 签名"""
+    raw = "".join(params[key] for key in sorted(params)) + LAOHU_APP_KEY
+    return hashlib.md5(raw.encode()).hexdigest()
+
+
+def get_common_fields(device_id, use_millis=False):
+    """获取通用参数"""
+    ts = int(time.time() * 1000) if use_millis else int(time.time())
+    base = {
+        "appId": str(LAOHU_APP_ID),
+        "channelId": "1",
+        "deviceId": device_id,
+        "deviceType": "Pixel 6",
+        "deviceModel": "Pixel 6",
+        "deviceName": "Pixel 6",
+        "deviceSys": "Android 14",
+        "adm": device_id,
+        "idfa": "",
+        "sdkVersion": LAOHU_SDK_VERSION,
+        "bid": LAOHU_DEFAULT_PACKAGE,
+        "t": str(ts),
     }
+    if use_millis:
+        base["version"] = str(LAOHU_DEFAULT_VERSION_CODE)
+        base["mac"] = ""
+    else:
+        base["versionCode"] = str(LAOHU_DEFAULT_VERSION_CODE)
+        base["imei"] = ""
+    return base
+
+
+def send_sms(phone, device_id):
+    """发送短信验证码"""
+    params = get_common_fields(device_id, use_millis=False)
+    params["cellphone"] = phone
+    params["areaCodeId"] = "1"
+    params["type"] = "16"
+    params["sign"] = sign_params(params)
+
+    headers = {"User-Agent": LAOHU_USER_AGENT}
     try:
-        resp = requests.post(LAOHU_SMS_URL, json=data, timeout=10)
+        resp = requests.post(
+            f"{LAOHU_BASE_URL}/m/newApi/sendPhoneCaptchaWithOutLogin",
+            data=params,
+            headers=headers,
+            timeout=15
+        )
         result = resp.json()
         if result.get("code") == 0:
             print(f"验证码已发送到 {phone}")
             return True
         else:
-            print(f"发送失败: {result.get('msg', '未知错误')}")
+            print(f"发送失败: {result.get('message', '未知错误')}")
             return False
     except Exception as e:
         print(f"发送失败: {e}")
         return False
 
 
-def login_with_sms(phone, code):
+def login_with_sms(phone, code, device_id):
     """短信验证码登录"""
-    encrypted_phone = aes_ecb_encrypt(phone, AES_KEY)
-    encrypted_code = aes_ecb_encrypt(code, AES_KEY)
-    data = {
-        "mobile": encrypted_phone,
-        "code": encrypted_code,
-        "areaCode": "86"
-    }
+    params = get_common_fields(device_id, use_millis=True)
+    params["cellphone"] = aes_ecb_encrypt(phone)
+    params["captcha"] = aes_ecb_encrypt(code)
+    params["areaCodeId"] = "1"
+    params["type"] = "16"
+    params["sign"] = sign_params(params)
+
+    headers = {"User-Agent": LAOHU_USER_AGENT}
     try:
-        resp = requests.post(LAOHU_LOGIN_URL, json=data, timeout=10)
+        resp = requests.post(
+            f"{LAOHU_BASE_URL}/openApi/sms/new/login",
+            data=params,
+            headers=headers,
+            timeout=15
+        )
         result = resp.json()
         if result.get("code") == 0:
-            token = result.get("data", {}).get("accessToken", "")
+            token = result.get("result", {}).get("token", "")
+            user_id = result.get("result", {}).get("userId", "")
             print(f"老虎登录成功!")
-            return token
+            return token, str(user_id)
         else:
-            print(f"登录失败: {result.get('msg', '未知错误')}")
-            return None
+            print(f"登录失败: {result.get('message', '未知错误')}")
+            return None, None
     except Exception as e:
         print(f"登录失败: {e}")
-        return None
+        return None, None
 
 
-def exchange_token(laohu_token):
+def exchange_token(laohu_token, laohu_user_id, device_id):
     """用老虎 Token 换取塔吉多 Token"""
     headers = {
-        "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0"
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": TAJIDUO_USER_AGENT,
+        "platform": "android",
+        "deviceid": device_id,
+        "appversion": TAJIDUO_APP_VERSION,
+        "uid": "0",
+        "authorization": "",
     }
+
     data = {
-        "token": laohu_token
+        "token": laohu_token,
+        "userIdentity": laohu_user_id,
+        "appId": TAJIDUO_USER_CENTER_APP_ID,
     }
+
     try:
-        resp = requests.post(TAJIDUO_LOGIN_URL, json=data, headers=headers, timeout=10)
+        resp = requests.post(
+            f"{TAJIDUO_BASE_URL}/usercenter/api/login",
+            data=data,
+            headers=headers,
+            timeout=15
+        )
         result = resp.json()
         if result.get("code") == 0:
             access_token = result.get("data", {}).get("accessToken", "")
@@ -115,9 +191,12 @@ def main():
         print("手机号不能为空")
         return
 
+    device_id = generate_device_id()
+    print(f"设备 ID: {device_id}")
+
     # 发送验证码
     print("\n正在发送验证码...")
-    if not send_sms(phone):
+    if not send_sms(phone, device_id):
         return
 
     # 等待用户输入验证码
@@ -128,13 +207,13 @@ def main():
 
     # 老虎登录
     print("\n正在登录老虎平台...")
-    laohu_token = login_with_sms(phone, code)
+    laohu_token, laohu_user_id = login_with_sms(phone, code, device_id)
     if not laohu_token:
         return
 
     # 换取塔吉多 Token
     print("\n正在换取塔吉多 Token...")
-    tajiduo_token = exchange_token(laohu_token)
+    tajiduo_token = exchange_token(laohu_token, laohu_user_id, device_id)
     if not tajiduo_token:
         return
 
