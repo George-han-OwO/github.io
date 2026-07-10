@@ -4,7 +4,7 @@
 import json
 import os
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 
 STEAM_ID = "76561199066644628"
 CSGO_APP_ID = "730"
@@ -45,7 +45,9 @@ def query_steam(api_key):
             result["steamName"] = player.get("personaname", "")
             result["avatarUrl"] = player.get("avatarfull", "")
             result["profileUrl"] = player.get("profileurl", "")
+            result["country"] = player.get("loccountrycode", "")
             print(f"  Steam昵称: {result['steamName']}")
+            print(f"  头像URL: {result['avatarUrl'][:60]}...")
     except Exception as e:
         print(f"  查询玩家资料失败: {e}")
 
@@ -72,8 +74,43 @@ def query_steam(api_key):
                 result["csgoHours"] = str(csgo_hours)
                 print(f"  CS:GO/CS2 时长: {csgo_hours} 小时")
                 break
+
+        # 获取游戏时长排行 Top 5
+        played_games = [g for g in games if g.get("playtime_forever", 0) > 0]
+        played_games.sort(key=lambda g: g.get("playtime_forever", 0), reverse=True)
+        top_games = []
+        for g in played_games[:5]:
+            hours = round(g.get("playtime_forever", 0) / 60)
+            top_games.append(f"{g.get('name', '未知')} ({hours}h)")
+        result["topGames"] = top_games
+        print(f"  Top 5 游戏: {', '.join(top_games)}")
     except Exception as e:
         print(f"  查询游戏库失败: {e}")
+
+    # 查询 CS:GO 成就
+    achievements_url = (
+        f"https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/"
+        f"?key={api_key}&steamid={STEAM_ID}&appid={CSGO_APP_ID}&l=schinese"
+    )
+    try:
+        resp = requests.get(achievements_url, timeout=15)
+        if resp.status_code == 200:
+            stats = resp.json().get("playerstats", {})
+            achievements = stats.get("achievements", [])
+            total = len(achievements)
+            unlocked = len([a for a in achievements if a.get("achieved") == 1])
+            result["csgoAchievements"] = f"{unlocked}/{total}"
+            print(f"  CS:GO 成就: {unlocked}/{total}")
+
+            # 获取最近解锁的5个成就
+            recent = [a for a in achievements if a.get("achieved") == 1]
+            recent_names = [a.get("name", "") for a in recent[-5:]]
+            result["csgoRecentAchievements"] = recent_names
+            print(f"  最近成就: {', '.join(recent_names)}")
+        else:
+            print(f"  CS:GO 成就查询失败: {resp.status_code} (可能需要公开游戏详情)")
+    except Exception as e:
+        print(f"  CS:GO 成就查询失败: {e}")
 
     return result
 
@@ -90,7 +127,7 @@ def main():
             bindings["steam"] = {}
         bindings["steam"].update(steam_data)
         bindings["steam"]["steamId"] = STEAM_ID
-        bindings["steam"]["lastSync"] = datetime.utcnow().isoformat() + "Z"
+        bindings["steam"]["lastSync"] = datetime.now(timezone.utc).isoformat()
         print("  Steam 数据已更新")
 
         if "csgo" not in bindings:
@@ -98,7 +135,11 @@ def main():
         bindings["csgo"]["steamId"] = STEAM_ID
         if "csgoHours" in steam_data:
             bindings["csgo"]["csgoHours"] = steam_data["csgoHours"]
-        bindings["csgo"]["lastSync"] = datetime.utcnow().isoformat() + "Z"
+        if "csgoAchievements" in steam_data:
+            bindings["csgo"]["achievements"] = steam_data["csgoAchievements"]
+        if "csgoRecentAchievements" in steam_data:
+            bindings["csgo"]["recentAchievements"] = steam_data["csgoRecentAchievements"]
+        bindings["csgo"]["lastSync"] = datetime.now(timezone.utc).isoformat()
         print("  CSGO 数据已更新")
 
     save_bindings(bindings)

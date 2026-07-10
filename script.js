@@ -417,12 +417,14 @@ const GAMES_CONFIG = [
     },
     {
         id: 'csgo',
-        name: 'CS:GO 时长',
+        name: 'CS:GO / CS2',
         icon: 'fa-crosshairs',
         color: '#f39c12',
         fields: [
-            { key: 'steamId', label: 'Steam ID / 关联Steam', type: 'text', placeholder: 'SteamID64' },
+            { key: 'steamId', label: 'Steam ID', type: 'text', placeholder: 'SteamID64' },
             { key: 'csgoHours', label: '游戏时长 (小时)', type: 'number', placeholder: '如:1500' },
+            { key: 'achievements', label: '成就进度', type: 'text', placeholder: '如: 42/167' },
+            { key: 'recentAchievements', label: '最近成就', type: 'text' },
             { key: 'rank', label: '段位/排名', type: 'text' },
             { key: 'primaryWeapon', label: '主要武器', type: 'text' },
             { key: 'note', label: '备注', type: 'textarea' }
@@ -439,6 +441,8 @@ const GAMES_CONFIG = [
             { key: 'profileUrl', label: '资料链接', type: 'text', placeholder: 'https://steamcommunity.com/...' },
             { key: 'avatarUrl', label: '头像 URL', type: 'text' },
             { key: 'totalGames', label: '游戏库数量', type: 'number' },
+            { key: 'topGames', label: '游戏时长排行', type: 'text' },
+            { key: 'country', label: '地区', type: 'text' },
             { key: 'note', label: '备注', type: 'textarea' }
         ],
         hasSync: true
@@ -652,7 +656,12 @@ function renderBindingCard(game) {
 }
 
 function renderBindingDisplay(game, data) {
-    const presentFields = game.fields.filter(f => data[f.key] && data[f.key].toString().trim() !== '');
+    const presentFields = game.fields.filter(f => {
+        const v = data[f.key];
+        if (v === undefined || v === null) return false;
+        if (Array.isArray(v)) return v.length > 0;
+        return String(v).trim() !== '';
+    });
     
     if (presentFields.length === 0) {
         const msg = isAdmin 
@@ -665,7 +674,9 @@ function renderBindingDisplay(game, data) {
     }
 
     const fieldsHtml = presentFields.map(f => {
-        const value = String(data[f.key]);
+        const raw = data[f.key];
+        const value = Array.isArray(raw) ? raw : String(raw);
+        
         if (f.key === 'avatarUrl') {
             return `<div class="field">
                 <span class="field-label">${escapeHtml(f.label)}</span>
@@ -680,6 +691,13 @@ function renderBindingDisplay(game, data) {
                 <div class="field-value">
                     <a href="${escapeHtml(value)}" target="_blank" rel="noopener noreferrer">${escapeHtml(value)} <i class="fas fa-external-link-alt" style="font-size:0.7em"></i></a>
                 </div>
+            </div>`;
+        }
+        if (Array.isArray(value)) {
+            const listHtml = value.map(item => `<li>${escapeHtml(String(item))}</li>`).join('');
+            return `<div class="field">
+                <span class="field-label">${escapeHtml(f.label)}</span>
+                <ul class="field-list">${listHtml}</ul>
             </div>`;
         }
         return `<div class="field">

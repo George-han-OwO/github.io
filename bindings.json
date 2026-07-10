@@ -25,10 +25,14 @@
     },
     "csgo": {
         "steamId": "76561199066644628",
-        "csgoHours": "1457",
+        "csgoHours": "1458",
         "rank": "",
         "primaryWeapon": "",
-        "lastSync": "2026-07-10T16:55:53.011471Z"
+        "lastSync": "2026-07-10T17:17:20.919052+00:00",
+        "achievements": "1/1",
+        "recentAchievements": [
+            "全新的开始"
+        ]
     },
     "steam": {
         "steamId": "76561199066644628",
@@ -36,7 +40,19 @@
         "profileUrl": "https://steamcommunity.com/id/George_Gao/",
         "avatarUrl": "https://avatars.steamstatic.com/bdaa444dfd64931710f15ac5a700ad63baa16c73_full.jpg",
         "totalGames": "45",
-        "lastSync": "2026-07-10T16:55:53.011064Z",
-        "csgoHours": "1457"
+        "lastSync": "2026-07-10T17:17:20.919033+00:00",
+        "csgoHours": "1458",
+        "country": "",
+        "topGames": [
+            "Counter-Strike 2 (1458h)",
+            "Once Human (159h)",
+            "Wallpaper Engine (104h)",
+            "Stellaris (89h)",
+            "PAYDAY 2 (89h)"
+        ],
+        "csgoAchievements": "1/1",
+        "csgoRecentAchievements": [
+            "全新的开始"
+        ]
     }
 }

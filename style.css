@@ -1328,6 +1328,29 @@ body.admin-mode .binding-card {
     border: 2px solid rgba(78, 205, 196, 0.3);
 }
 
+.binding-display .field-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.binding-display .field-list li {
+    font-size: 0.9rem;
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    border-left: 3px solid rgba(78, 205, 196, 0.5);
+    line-height: 1.4;
+}
+
+.binding-display .field-list li:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
 .binding-empty {
     text-align: center;
     color: #555;
