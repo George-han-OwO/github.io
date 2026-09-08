@@ -1,357 +1,294 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人网站 - Georgehan</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-    <!-- 加载动画 -->
-    <div class="loader">
-        <div class="loader-content">
-            <div class="loader-text">LOADING</div>
-            <div class="loader-bar">
-                <div class="loader-progress"></div>
-            </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="George Han 的个人空间。来自探月学校，热爱编程、游戏开发与设计，在黑客松和游戏世界里探索更多可能。"
+    />
+    <meta name="theme-color" content="#0c1012" />
+    <title>George Han · 开发与游戏之间</title>
+    <link rel="icon" href="User_/user.png" type="image/png" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <header class="site-header">
+      <nav class="nav container" aria-label="主导航">
+        <a class="brand" href="#home" aria-label="George Han 首页"
+          >GH<span class="brand-dot">.</span></a
+        >
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+          aria-label="打开导航菜单"
+          hidden
+        >
+          <span></span><span></span>
+        </button>
+        <ul class="nav-menu" id="nav-menu">
+          <li>
+            <a class="nav-link" href="#home" aria-current="location">首页</a>
+          </li>
+          <li><a class="nav-link" href="#about">关于我</a></li>
+          <li><a class="nav-link" href="#games">游戏世界</a></li>
+          <li>
+            <a class="nav-link" href="#contact"
+              >联系我 <span aria-hidden="true">↗</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main id="main" tabindex="-1">
+      <section class="hero container" id="home" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="status-dot" aria-hidden="true"></span> HELLO, WORLD.
+            I'M
+          </p>
+          <h1 id="hero-title">
+            George<span>Han<span class="title-dot">.</span></span>
+          </h1>
+          <p class="hero-role">学生 / 开发者 / 游戏爱好者</p>
+          <p class="hero-description">
+            用代码实现想法，<br />在游戏世界里探索更多可能。
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#about"
+              >认识一下 <span aria-hidden="true">↗</span></a
+            ><a class="text-link" href="#games"
+              >进入我的游戏世界 <span aria-hidden="true">↓</span></a
+            >
+          </div>
+          <div class="profile">
+            <img
+              src="User_/user.png"
+              alt="George Han 的头像"
+              width="48"
+              height="48"
+              decoding="async"
+            />
+            <div><strong>George Han</strong><span>探月学校 · G10</span></div>
+          </div>
         </div>
-    </div>
-
-    <!-- 导航栏 -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span class="logo-text">个人网站 - Georgehan</span>
+        <figure class="hero-art">
+          <img
+            src="User_/白子酱~.jpg"
+            alt="碧蓝档案中的白子"
+            width="1289"
+            height="2073"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <figcaption>
+            <div>
+              <span class="art-label">MY FAVORITE CHARACTER</span
+              ><strong>白子 <span>Shiroko</span></strong>
             </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link">首页</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#about" class="nav-link">关于我</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#games" class="nav-link">游戏方面~</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#bindings" class="nav-link">游戏账号</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">联系</a>
-                </li>
-            </ul>
-            <div class="nav-right">
-                <div class="nav-admin" id="navAdmin">
-                    <span class="admin-badge">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>管理员</span>
-                    </span>
-                    <button class="admin-logout" id="adminLogoutBtn" title="退出登录">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
-                </div>
-                <div class="nav-toggle">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </div>
+            <span class="art-mark" aria-hidden="true">↗</span>
+          </figcaption>
+        </figure>
+        <div class="hero-bottom">
+          <span>CODE. CREATE. PLAY.</span
+          ><a href="#about">继续往下 <span aria-hidden="true">↓</span></a>
+        </div>
+      </section>
+      <section
+        class="section container"
+        id="about"
+        aria-labelledby="about-title"
+      >
+        <div class="section-heading">
+          <p class="eyebrow">01 / ABOUT ME</p>
+          <h2 id="about-title">好奇心，是我的驱动力<span>.</span></h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-copy">
+            <h3>你好，我是 George Han。</h3>
+            <p>
+              我是来自探月学校的一名 G10
+              学生，热爱编程和游戏开发。我喜欢和团队一起，把一个刚冒出来的想法，变成可以真正使用和体验的作品。
+            </p>
+            <p>
+              参加过 3 场黑客松，在 M48 第一届和第三届中获得三等奖，在
+              AdventureX 杭州比赛中获得 GCC
+              一等奖。每一次从想法到作品的过程，都让我想继续探索。
+            </p>
+            <p>
+              写代码之外，我也喜欢
+              UI、工业设计和建模。当然，还有和朋友们一起打游戏。
+            </p>
+          </div>
+          <div class="skills">
+            <div class="skill-group">
+              <span class="small-label">DEVELOPMENT / 编程</span>
+              <h3>从 Web 到游戏开发</h3>
+              <ul class="tags">
+                <li class="highlight">Java</li>
+                <li class="highlight">JavaScript</li>
+                <li>C++</li>
+                <li>Python</li>
+                <li>C#</li>
+                <li>Android</li>
+              </ul>
             </div>
-        </div>
-    </nav>
-
-    <!-- 首页区域 - 三等分布局 -->
-    <section id="home" class="hero">
-        <div class="hero-background">
-            <div class="particles" id="particles-js"></div>
-        </div>
-        
-        <!-- 三等分布局 -->
-        <div class="three-column-layout">
-            <div class="layout-container">
-                <div class="layout-row">
-                    <!-- 第一份：用户头像 -->
-                    <div class="layout-column">
-                        <div class="column-content">
-                            <img src="User_/user.png" alt="George Han - 探月学校G10学生" class="column-image user-avatar">
-                            <div class="column-text">
-                                <h3>George Han</h3>
-                                <p>探月学校G10学生</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 第三份：标题和描述 -->
-                    <div class="layout-column">
-                        <div class="column-content">
-                            <div class="hero-text">
-                                <h1>Georgehan</h1>
-                                <p>开发者</p>
-                                <div class="hero-subtitle">
-                                    <span>热爱游戏开发</span>
-                                    <span>擅长团队协作</span>
-                                    <span>追求技术创新</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 第二份：白子酱图片 -->
-                    <div class="layout-column">
-                        <div class="column-content">
-                            <img src="User_/白子酱~.jpg" alt="白子酱" class="column-image main-image">
-                            <div class="column-text">
-                                <h3>白子酱</h3>
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="skill-group">
+              <span class="small-label">DESIGN / 设计</span>
+              <h3>让想法有形状</h3>
+              <ul class="tags">
+                <li>Figma</li>
+                <li>SolidWorks</li>
+                <li>Onshape</li>
+              </ul>
             </div>
+          </div>
         </div>
-        
-        <div class="scroll-indicator">
-            <div class="scroll-arrow"></div>
-        </div>
-    </section>
-
-    <!-- 关于我区域 -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">关于我</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>探月学校G10学生 「 GeorgeHan 」</h3>
-                    <p>我是来自探月学校的一名G10学生，热爱编程和游戏开发。参加过3场黑客松比赛，在M48第一届和第三届中获得了三等奖，在AdventureX-杭州比赛中获得了GCC一等奖。除了编程，我还是一个狂热的游戏玩家，如果你也玩这些游戏，或许我们可以搭个伴~</p>
-                    <p>在编程方面，我会使用Java,C++,Python,Android,C#,更擅长Java与JavaScript语言，对Web开发和游戏开发有浓厚兴趣。希望通过不断学习，能够创造出更多有趣的项目。</p>
-                    <p>在设计方面，我会使用Figma，SolidWorks,Onshape工具，对UI/工业设计/建模设计有一定的理解和经验。</p>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <div class="stat-number">3</div>
-                            <div class="stat-label">黑客松参赛次数</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">2</div>
-                            <div class="stat-label">三等奖</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">1</div>
-                            <div class="stat-label">GCC一等奖</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-image">
-                    <div class="floating-card">
-                        <div class="card-content">
-                            <h4>游戏方面</h4>
-                            <ul>
-                                <li>碧蓝档案-主厨:白子;伊吕波</li>
-                                <li>Minecraft</li>
-                                <li>CSGO/CS2</li>
-                                <li>崩坏星穹铁道</li>
-                                <li>RainBow 6</li>
-                                <li>战地2042</li>
-                                <li>绝地潜兵2</li>
-                                <li>PayDay2</li>
-                                <li>暗区突围</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        <dl class="stats">
+          <div>
+            <dt>黑客松参赛</dt>
+            <dd>03<span>场</span></dd>
+          </div>
+          <div>
+            <dt>M48 三等奖</dt>
+            <dd>02<span>次</span></dd>
+          </div>
+          <div>
+            <dt>AdventureX · GCC 一等奖</dt>
+            <dd>01<span>次</span></dd>
+          </div>
+        </dl>
+      </section>
+      <section class="games-section" id="games" aria-labelledby="games-title">
+        <div class="container section">
+          <div class="section-heading heading-row">
+            <div>
+              <p class="eyebrow">02 / OFF THE KEYBOARD</p>
+              <h2 id="games-title">我的游戏世界<span>.</span></h2>
             </div>
+            <p>从沙盒建造到战术竞技，<br />总有一个世界值得一起探索。</p>
+          </div>
+          <div class="game-grid">
+            <article class="game-card">
+              <div class="game-card-top">
+                <span class="game-symbol" aria-hidden="true">✦</span
+                ><span class="small-label">01 / STRATEGY</span>
+              </div>
+              <h3>碧蓝档案</h3>
+              <p class="game-subtitle">Blue Archive</p>
+              <p class="game-description">
+                主厨白子、伊吕波。喜欢精美的画风和丰富的剧情，也享受角色培养与战术搭配的过程。
+              </p>
+              <ul class="tags">
+                <li>策略</li>
+                <li>角色扮演</li>
+                <li>二次元</li>
+              </ul>
+              <div class="game-meta">
+                <strong>300<span>+ 小时</span></strong
+                ><span>角色培养 / 战术搭配</span>
+              </div>
+            </article>
+            <article class="game-card">
+              <div class="game-card-top">
+                <span class="game-symbol" aria-hidden="true">◇</span
+                ><span class="small-label">02 / SANDBOX</span>
+              </div>
+              <h3>Minecraft</h3>
+              <p class="game-subtitle">在方块之间，创造无限</p>
+              <p class="game-description">
+                喜欢红石电路、建筑创作与生电。从一块方块开始，把脑海中的构想慢慢搭成一个世界。
+              </p>
+              <ul class="tags">
+                <li>沙盒</li>
+                <li>建造</li>
+                <li>探索</li>
+              </ul>
+              <div class="game-meta">
+                <strong>5,000<span>+ 小时</span></strong
+                ><span>生电 / 建筑</span>
+              </div>
+            </article>
+            <article class="game-card">
+              <div class="game-card-top">
+                <span class="game-symbol" aria-hidden="true">⌖</span
+                ><span class="small-label">03 / TACTICAL</span>
+              </div>
+              <h3>战术与团队</h3>
+              <p class="game-subtitle">FPS & Co-op</p>
+              <p class="game-description">
+                CS2、R6、战地 2042、绝地潜兵
+                2……享受团队配合和战术执行，也喜欢在狙击位寻找机会。
+              </p>
+              <ul class="tags">
+                <li>射击</li>
+                <li>战术</li>
+                <li>团队协作</li>
+              </ul>
+              <div class="game-meta">
+                <strong>10,000<span>+ 小时</span></strong
+                ><span>团队配合 / 狙击位</span>
+              </div>
+            </article>
+          </div>
+          <div class="more-games">
+            <span class="small-label">ALSO PLAYING</span>
+            <p>
+              崩坏：星穹铁道 / PAYDAY 2 / 暗区突围 / 三角洲 / 逃离塔科夫 /
+              和平精英 / CODM
+            </p>
+          </div>
         </div>
-    </section>
-
-    <!-- 我的游戏世界 - 合并后的游戏展示区域 -->
-    <section id="games" class="games">
-        <div class="container">
-            <h2 class="section-title">游戏方面~</h2>
-            
-            <!-- 游戏介绍文本 -->
-            <div class="games-intro">
-                <p>欢迎来到关于我玩的游戏部分！这里展示了我热爱的各种游戏，从二次元入门到FPS精通，从沙盒建造到战术竞技。每个游戏都有独特的魅力和玩法，让我体验到在不同世界观中的不同游戏体验。</p>
-                <p>如果你也玩这些游戏，或许我们可以搭个伴~</p>
-            </div>
-            
-            <!-- 静态网格卡片容器 -->
-            <div class="horizontal-cards-container">
-                <!-- 碧蓝档案卡片 -->
-                <div class="card flip-card" data-card-index="0">
-                    <div class="card-inner">
-                        <!-- 卡片正面 -->
-                        <div class="card-front">
-                            <div class="card-content">
-                                <i class="fas fa-gamepad"></i>
-                                <h3>碧蓝档案</h3>
-                                <p>二次元策略游戏</p>
-                            </div>
-                        </div>
-                        <!-- 卡片背面 -->
-                        <div class="card-back">
-                            <div class="card-content">
-                                <h3>碧蓝档案</h3>
-                                <p>主厨:白子;伊吕波，热爱这款二次元策略游戏，擅长角色培养和战术搭配。喜欢精美的画风和丰富的剧情。</p>
-                                <div class="game-details">
-                                    <div class="detail-item">
-                                        <span>游戏时长：300+小时</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <span></span>
-                                    </div>
-                                </div>
-                                <div class="game-tags">
-                                    <span class="tag">策略</span>
-                                    <span class="tag">角色扮演</span>
-                                    <span class="tag">二次元</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Minecraft卡片 -->
-                <div class="card flip-card" data-card-index="1">
-                    <div class="card-inner">
-                        <!-- 卡片正面 -->
-                        <div class="card-front">
-                            <div class="card-content">
-                                <i class="fas fa-cube"></i>
-                                <h3>Minecraft</h3>
-                                <p>沙盒建造游戏</p>
-                            </div>
-                        </div>
-                        <!-- 卡片背面 -->
-                        <div class="card-back">
-                            <div class="card-content">
-                                <h3>Minecraft</h3>
-                                <p>沙盒建造大师，擅长红石电路和建筑创作，喜欢探索无限可能的世界。红石电路专家，建筑创作爱好者。</p>
-                                <div class="game-details">
-                                    <div class="detail-item">
-                                        <i class="fas fa-clock"></i>
-                                        <span>游戏时长：5000+小时</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-trophy"></i>
-                                        <span>擅长：生电、建筑</span>
-                                    </div>
-                                </div>
-                                <div class="game-tags">
-                                    <span class="tag">沙盒</span>
-                                    <span class="tag">建造</span>
-                                    <span class="tag">探索</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- FPS射击游戏卡片 -->
-                <div class="card flip-card" data-card-index="2">
-                    <div class="card-inner">
-                        <!-- 卡片正面 -->
-                        <div class="card-front">
-                            <div class="card-content">
-                                <i class="fas fa-crosshairs"></i>
-                                <h3>FPS射击游戏</h3>
-                                <p>战术竞技游戏</p>
-                            </div>
-                        </div>
-                        <!-- 卡片背面 -->
-                        <div class="card-back">
-                            <div class="card-content">
-                                <h3>FPS射击游戏合集</h3>
-                                <p>CSGO、R6、战地2042、绝地潜兵2、PayDay2、暗区突围和平精英、CODM等战术射击，擅长团队配合和战术执行。</p>
-                                <div class="game-details">
-                                    <div class="detail-item">
-                                        <i class="fas fa-clock"></i>
-                                        <span>游戏时长：10000+小时</span>
-                                    </div>
-                                    <div class="detail-item">
-                                        <i class="fas fa-trophy"></i>
-                                        <span>擅长：团队配合、战术执行、狙击位</span>
-                                    </div>
-                                </div>
-                                <div class="game-tags">
-                                    <span class="tag">射击</span>
-                                    <span class="tag">战术</span>
-                                    <span class="tag">团队</span>
-                                    <span class="tag">竞技</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </section>
+      <section
+        class="section container contact-section"
+        id="contact"
+        aria-labelledby="contact-title"
+      >
+        <div class="contact-copy">
+          <p class="eyebrow">03 / SAY HELLO</p>
+          <h2 id="contact-title">一起做点有趣的事<span>↗</span></h2>
+          <p>
+            聊编程、交流想法，或者一起开一局。<br />很高兴认识同样热爱探索的你。
+          </p>
+          <a
+            class="button button-primary"
+            href="mailto:GeorgeGaoHan@outlook.com"
+            >给我发邮件 <span aria-hidden="true">↗</span></a
+          >
         </div>
-    </section>
-
-    <!-- 游戏账号绑定区域 -->
-    <section id="bindings" class="bindings">
-        <div class="container">
-            <h2 class="section-title">游戏账号绑定</h2>
-            <p class="bindings-hint" id="bindingsHint">双击首页头像可登录管理员进行账号绑定</p>
-            <div class="bindings-grid" id="bindingsGrid">
-                <!-- 由 JS 动态生成 -->
-            </div>
-        </div>
-    </section>
-
-    <!-- 联系区域 -->
-    <section id="contact" class="partner">
-        <div class="container">
-            <h2 class="section-title">联系我~</h2>
-            <div class="partner-content">
-                <div class="partner-info">
-                    <h3>一起玩游戏吧！</h3>
-                    <p>如果你也玩这些游戏，或许我们可以搭个伴~ 无论是二次元，还是FPS，我都欢迎新的游戏伙伴！</p>
-                    <div class="partner-details">
-                        <div class="partner-item">
-                            <span>主要游戏：碧蓝档案、Minecraft、CSGO</span>
-                        </div>
-                        <div class="partner-item">
-                            <span>擅长：策略游戏、团队配合、建筑创作</span>
-                        </div>
-                        <div class="partner-item">
-                            <span>游戏风格：团队协作、战术规划</span>
-                        </div>
-                    </div>
-                    <div class="game-list">
-                        <h4>我玩的游戏：</h4>
-                        <p>碧蓝档案、Minecraft、CSGO、崩坏星穹铁道、R6、战地2042、绝地潜兵2、PayDay2、暗区突围、三角洲、逃离塔科夫、和平精英、CODM</p>
-                    </div>
-                </div>
-                <div class="partner-form">
-                    <h4>联系我~</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><strong>微信:</strong> Georgehan_wechat</li>
-                        <li><strong>QQ:</strong> 1653711243</li>
-                        <li><strong>邮箱:</strong> GeorgeGaoHan@outlook.com</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 页脚 -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2025 白子酱 - 探月学校G10学生 | 游戏爱好者</p>
-                <div class="footer-links">
-                    <a href="#home">回到顶部</a>
-                    <span>|</span>
-                    <a href="#games">游戏方面~</a>
-                    <span>|</span>
-                    <a href="#bindings">游戏账号</a>
-                    <span>|</span>
-                    <a href="#contact">联系</a>
-                </div>
-            </div>
-        </div>
+        <dl class="contact-list">
+          <div>
+            <dt>EMAIL / 邮箱</dt>
+            <dd>
+              <a href="mailto:GeorgeGaoHan@outlook.com"
+                >GeorgeGaoHan@outlook.com <span aria-hidden="true">↗</span></a
+              >
+            </dd>
+          </div>
+          <div>
+            <dt>WECHAT / 微信</dt>
+            <dd>Georgehan_wechat</dd>
+          </div>
+          <div>
+            <dt>QQ</dt>
+            <dd>1653711243</dd>
+          </div>
+        </dl>
+      </section>
+    </main>
+    <footer class="footer container">
+      <a class="brand" href="#home" aria-label="George Han 首页"
+        >GH<span class="brand-dot">.</span></a
+      >
+      <p>© <span id="year">2026</span> George Han</p>
+      <a class="text-link" href="#home"
+        >回到顶部 <span aria-hidden="true">↑</span></a
+      >
     </footer>
-
-
-    <script src="script.js"></script>
-</body>
+  </body>
 </html>
