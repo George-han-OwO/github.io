@@ -1,169 +1,39 @@
-# 个人主页 - 精英开发者
+# George Han 的个人网站
 
-一个帅气、高大上的黑色系个人主页，专为精英开发者设计。
+个人介绍、编程与设计技能、黑客松经历、游戏兴趣和联系方式。使用原生 HTML、CSS 和 JavaScript，部署到 GitHub Pages，无需安装依赖或构建。
 
-## ✨ 特性
+## 本地预览
 
-- 🎨 **黑色系设计** - 现代、专业的深色主题
-- ⚡ **高性能** - 优化的动画和交互效果
-- 📱 **响应式布局** - 完美适配所有设备
-- 🌟 **动态效果** - 粒子背景、滚动动画、悬停效果
-- 🎯 **用户体验** - 流畅的导航和交互动画
+在仓库目录运行：
 
-## 🚀 快速开始
-
-1. 克隆或下载项目文件
-2. 直接在浏览器中打开 `index.html` 文件
-3. 或者使用本地服务器运行：
-   ```bash
-   # 使用 Python
-   python -m http.server 8000
-   
-   # 使用 Node.js
-   npx serve .
-   ```
-
-## 📁 项目结构
-
-```
-个人主页/
-├── index.html          # 主页面文件
-├── style.css           # 样式文件
-├── script.js           # JavaScript交互逻辑
-└── README.md          # 项目说明
+```sh
+python -m http.server 8000 --bind 127.0.0.1
 ```
 
-## 🎨 设计特色
+打开 http://127.0.0.1:8000/ 。直接打开 `index.html` 也可以浏览正文与使用锚点导航。
 
-### 颜色主题
-- 主色调：深黑色 (#0a0a0a)
-- 强调色：青色 (#4ecdc4)
-- 辅助色：红色 (#ff6b6b)
+## 文件说明
 
-### 动画效果
-- 加载动画
-- 滚动触发动画
-- 技能进度条动画
-- 粒子背景效果
-- 悬停交互效果
+- `index.html`：个人资料、游戏介绍、联系方式和页面元信息。
+- `style.css`：深色主题、响应式布局、键盘焦点与减少动态效果设置。
+- `script.js`：移动端导航、当前章节提示、年份更新及旧版浏览器数据清理。
+- `User_/`：原有头像和白子图片。
+- `CNAME`：原有 GitHub Pages 自定义域名。
+- `tests/navigation.test.cjs`：导航及旧版数据清理的回归测试。
 
-## 📱 响应式设计
+## 维护
 
-- **桌面端**：完整功能展示
-- **平板端**：自适应布局
-- **移动端**：优化触摸交互
+编辑 `index.html` 更新学校、年级、比赛经历、游戏时长和联系方式。这些资料均为静态内容，不会自动同步。页面不依赖外部字体、图标库或第三方游戏接口；JavaScript 不可用时，正文、导航与邮箱链接仍可使用。
 
-## 🔧 自定义配置
+账号绑定板块、隐藏管理员登录、账号数据文件及每日同步工作流已移除。新版仅尝试删除本站以前使用的两个浏览器存储键，不会读取账号资料，也不会清空其他本地数据。仓库历史及 GitHub 中已有的 Secrets 不受此代码修改影响。
 
-### 修改个人信息
-编辑 `index.html` 文件中的以下部分：
+## 检查
 
-```html
-<!-- 首页区域 -->
-<div class="profile-info">
-    <h3>你的名字</h3>
-    <p>你的职位</p>
-</div>
+需要 Node.js 18 或更新版本：
 
-<!-- 关于我区域 -->
-<div class="about-text">
-    <h3>你的标题</h3>
-    <p>你的介绍...</p>
-</div>
-
-<!-- 联系信息 -->
-<div class="contact-details">
-    <div class="contact-item">
-        <i class="fas fa-envelope"></i>
-        <span>你的邮箱</span>
-    </div>
-</div>
+```sh
+node --check script.js
+node --test tests/navigation.test.cjs
 ```
 
-### 修改技能数据
-在 `index.html` 中更新技能百分比：
-
-```html
-<div class="skill-item" data-percent="95">
-    <span class="skill-name">技能名称</span>
-    <div class="skill-bar">
-        <div class="skill-progress"></div>
-    </div>
-</div>
-```
-
-### 添加项目
-复制并修改项目卡片：
-
-```html
-<div class="project-card">
-    <div class="project-image">
-        <div class="project-overlay">
-            <h4>项目类型</h4>
-            <p>项目描述</p>
-        </div>
-    </div>
-    <div class="project-info">
-        <h3>项目标题</h3>
-        <p>详细描述...</p>
-        <div class="project-tags">
-            <span class="tag">技术栈</span>
-        </div>
-    </div>
-</div>
-```
-
-## 🌟 功能亮点
-
-### 导航功能
-- 平滑滚动导航
-- 移动端汉堡菜单
-- 滚动时导航栏样式变化
-
-### 动画效果
-- 渐入动画
-- 技能进度条动画
-- 项目悬停效果
-- 粒子背景动画
-
-### 交互功能
-- 联系表单验证
-- 成功通知提示
-- 响应式触摸交互
-
-## 🛠️ 技术栈
-
-- **HTML5** - 语义化标记
-- **CSS3** - 现代样式和动画
-- **JavaScript** - 交互逻辑
-- **Font Awesome** - 图标库
-- **Google Fonts** - 字体服务
-
-## 📈 性能优化
-
-- 图片懒加载
-- CSS动画优化
-- JavaScript事件委托
-- 响应式图片
-- 代码分割和压缩
-
-## 🐛 问题反馈
-
-如果你遇到任何问题或有改进建议，请：
-
-1. 检查浏览器控制台是否有错误信息
-2. 确保所有文件路径正确
-3. 尝试刷新浏览器缓存
-4. 在不同浏览器中测试
-
-## 📄 许可证
-
-本项目采用 MIT 许可证 - 详见 LICENSE 文件。
-
-## 🤝 贡献
-
-欢迎提交 Pull Request 或提出 Issue 来改进这个项目。
-
----
-
-**享受你的帅气个人主页！** 🚀
+将审核后的修改合并至 `master`，并沿用仓库已有的 GitHub Pages 发布设置。仓库中的 DNS 配置文档是历史部署参考；`EMAILJS_SETUP.md` 是已停用联系表单的历史说明，当前页面没有该表单。
