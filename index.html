@@ -11,6 +11,8 @@
     <title>George Han · 开发与游戏之间</title>
     <link rel="icon" href="User_/user.png" type="image/png" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="companion.css" />
+    <script type="module" src="assets/eku.js"></script>
     <script src="script.js" defer></script>
   </head>
   <body>
@@ -42,6 +44,9 @@
             >
           </li>
         </ul>
+        <button type="button" class="admin-open" id="admin-open" hidden>
+          管理员登录
+        </button>
       </nav>
     </header>
     <main id="main" tabindex="-1">
@@ -51,7 +56,7 @@
             <span class="status-dot" aria-hidden="true"></span> HELLO, WORLD.
             I'M
           </p>
-          <h1 id="hero-title">
+          <h1 id="hero-title" data-eku-target="hero-title">
             George<span>Han<span class="title-dot">.</span></span>
           </h1>
           <p class="hero-role">学生 / 开发者 / 游戏爱好者</p>
@@ -105,7 +110,9 @@
       >
         <div class="section-heading">
           <p class="eyebrow">01 / ABOUT ME</p>
-          <h2 id="about-title">好奇心，是我的驱动力<span>.</span></h2>
+          <h2 id="about-title" data-eku-target="about-title">
+            好奇心，是我的驱动力<span>.</span>
+          </h2>
         </div>
         <div class="about-grid">
           <div class="about-copy">
@@ -129,8 +136,8 @@
               <span class="small-label">DEVELOPMENT / 编程</span>
               <h3>从 Web 到游戏开发</h3>
               <ul class="tags">
-                <li class="highlight">Java</li>
-                <li class="highlight">JavaScript</li>
+                <li class="highlight" data-eku-target="skill-java">Java</li>
+                <li class="highlight" data-eku-target="skill-js">JavaScript</li>
                 <li>C++</li>
                 <li>Python</li>
                 <li>C#</li>
@@ -168,12 +175,14 @@
           <div class="section-heading heading-row">
             <div>
               <p class="eyebrow">02 / OFF THE KEYBOARD</p>
-              <h2 id="games-title">我的游戏世界<span>.</span></h2>
+              <h2 id="games-title" data-eku-target="games-title">
+                我的游戏世界<span>.</span>
+              </h2>
             </div>
             <p>从沙盒建造到战术竞技，<br />总有一个世界值得一起探索。</p>
           </div>
           <div class="game-grid">
-            <article class="game-card">
+            <article class="game-card" data-eku-target="game-blue">
               <div class="game-card-top">
                 <span class="game-symbol" aria-hidden="true">✦</span
                 ><span class="small-label">01 / STRATEGY</span>
@@ -193,7 +202,7 @@
                 ><span>角色培养 / 战术搭配</span>
               </div>
             </article>
-            <article class="game-card">
+            <article class="game-card" data-eku-target="game-minecraft">
               <div class="game-card-top">
                 <span class="game-symbol" aria-hidden="true">◇</span
                 ><span class="small-label">02 / SANDBOX</span>
@@ -213,7 +222,7 @@
                 ><span>生电 / 建筑</span>
               </div>
             </article>
-            <article class="game-card">
+            <article class="game-card" data-eku-target="game-fps">
               <div class="game-card-top">
                 <span class="game-symbol" aria-hidden="true">⌖</span
                 ><span class="small-label">03 / TACTICAL</span>
@@ -251,7 +260,9 @@
       >
         <div class="contact-copy">
           <p class="eyebrow">03 / SAY HELLO</p>
-          <h2 id="contact-title">一起做点有趣的事<span>↗</span></h2>
+          <h2 id="contact-title" data-eku-target="contact-title">
+            一起做点有趣的事<span>↗</span>
+          </h2>
           <p>
             聊编程、交流想法，或者一起开一局。<br />很高兴认识同样热爱探索的你。
           </p>
@@ -290,5 +301,134 @@
         >回到顶部 <span aria-hidden="true">↑</span></a
       >
     </footer>
+
+    <canvas id="eku-canvas" aria-hidden="true"></canvas>
+    <button
+      id="eku-actor"
+      type="button"
+      aria-label="和 EKU 聊天，可拖动角色"
+      hidden
+    ></button>
+    <div id="eku-bubble" hidden aria-hidden="true"></div>
+    <span id="eku-word" hidden aria-hidden="true"></span>
+    <div class="eku-dock" aria-label="EKU 角色控制">
+      <p id="eku-load" role="status">EKU 正在过来…</p>
+      <button id="eku-retry" type="button" hidden>重新加载角色</button>
+      <div class="eku-dock-actions">
+        <button
+          id="eku-chat-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="eku-chat"
+        >
+          <span aria-hidden="true">✦</span> 和 EKU 聊天
+        </button>
+        <button id="eku-pause" type="button">暂停游走</button>
+        <button id="eku-hide" type="button">收起 EKU</button>
+      </div>
+    </div>
+    <section
+      id="eku-chat"
+      class="eku-panel"
+      aria-labelledby="eku-chat-title"
+      hidden
+    >
+      <div class="eku-panel-heading">
+        <div>
+          <h2 id="eku-chat-title">EKU <span>你的站内小伙伴</span></h2>
+          <p id="eku-connection">正在连接…</p>
+        </div>
+        <button
+          id="eku-chat-close"
+          class="eku-icon-button"
+          type="button"
+          aria-label="关闭对话"
+        >
+          ×
+        </button>
+      </div>
+      <div class="eku-tricks" aria-label="让 EKU 做动作">
+        <button type="button" data-eku-action="wave">挥挥手</button
+        ><button type="button" data-eku-action="climb">爬边框</button
+        ><button type="button" data-eku-action="pickup">拿字看看</button>
+      </div>
+      <div
+        id="eku-messages"
+        role="log"
+        aria-label="与 EKU 的对话"
+        aria-live="polite"
+      >
+        <div class="eku-message eku-message-assistant">
+          <span class="eku-message-label">EKU</span>
+          <p>你好呀，我是 EKU。想聊编程、游戏，还是让我去网页上探险？</p>
+        </div>
+      </div>
+      <p class="eku-privacy">
+        由 DeepSeek AI 回复。发送的消息与当前页面标题会交给
+        DeepSeek；请勿输入密码等敏感信息。
+      </p>
+      <p id="eku-status" role="status"></p>
+      <form id="eku-chat-form">
+        <label class="visually-hidden" for="eku-input">发送给 EKU 的消息</label
+        ><textarea
+          id="eku-input"
+          maxlength="1000"
+          rows="2"
+          placeholder="和 EKU 说点什么…"
+          required
+        ></textarea>
+        <div class="eku-form-actions">
+          <button type="button" id="eku-chat-clear">清空对话</button
+          ><button type="button" id="eku-chat-stop" hidden>停止</button
+          ><button type="submit" class="eku-primary">发送 ↗</button>
+        </div>
+      </form>
+    </section>
+    <dialog id="admin-dialog" class="eku-admin" aria-labelledby="admin-title">
+      <div class="eku-panel-heading">
+        <h2 id="admin-title">管理员</h2>
+        <button
+          type="button"
+          id="admin-close"
+          class="eku-icon-button"
+          aria-label="关闭管理员面板"
+        >
+          ×
+        </button>
+      </div>
+      <form id="admin-login">
+        <p class="admin-description">登录后管理 EKU 的站内活动与对话。</p>
+        <label for="admin-username">账号名</label
+        ><input
+          id="admin-username"
+          name="username"
+          autocomplete="username"
+          maxlength="80"
+          required
+        /><label for="admin-password">密码</label
+        ><input
+          id="admin-password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          maxlength="256"
+          required
+        /><button type="submit" class="eku-primary">登录</button>
+      </form>
+      <form id="admin-settings" hidden>
+        <p id="admin-status"></p>
+        <p id="admin-usage"></p>
+        <label class="admin-switch"
+          ><input type="checkbox" id="admin-motion" />允许 EKU 自动游走</label
+        ><label class="admin-switch"
+          ><input type="checkbox" id="admin-chat" />允许访客与 EKU 对话</label
+        >
+        <div class="eku-form-actions">
+          <button type="button" id="admin-logout">退出登录</button
+          ><button type="submit" class="eku-primary">保存设置</button>
+        </div>
+      </form>
+      <p id="admin-message" role="status"></p>
+    </dialog>
   </body>
 </html>
