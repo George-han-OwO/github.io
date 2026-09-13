@@ -1,45 +1,39 @@
-# George Han · EKU 个人网站
+# George Han 的个人网站
 
-保留原有个人介绍、游戏兴趣和联系方式，加入本地 EKU 3D 模型、站内游走、攀爬、捧字动作、DeepSeek 官方 API 对话和右上角管理员登录。
+个人介绍、编程与设计技能、黑客松经历、游戏兴趣和联系方式。使用原生 HTML、CSS 和 JavaScript，部署到 GitHub Pages，无需安装依赖或构建。
 
-## 快速开始
+## 本地预览
 
-需要 Node.js 22+。确认 `public/models/eku.glb` 存在后：
-
-```sh
-npm ci
-npm run build
-npm run setup
-npm start
-```
-
-打开 `http://localhost:3000`。第一次可以跳过 `setup` 查看角色动作，但真实对话和管理员登录需要在终端配置账号名、密码及 API Key。
-
-完整服务器配置、HTTPS、systemd、额度及数据说明见 [部署说明](deploy/README.md)。此版本需要 Node.js 服务器，不能仅用 GitHub Pages 或 Python 静态服务器运行后端功能。
-
-## 使用
-
-- EKU 会在当前可见内容之间走动、爬边框、阅读文字并把文字副本拿起后放回。
-- 点击角色或右下角「和 EKU 聊天」打开对话；可拖动角色位置。
-- 对话面板提供挥手、爬边框、拿字看看三个动作按钮。
-- 「暂停游走」与「收起 EKU」控制当前页面；遵守系统减少动态效果设置。
-- 右上角管理员登录通过服务器验证账号名和密码，登录后可以设置全站游走和访客对话开关。
-- 对话需要有效的 DeepSeek 官方 API Key，密钥仅由服务器读取。
-
-## 文件
-
-- `index.html`、`style.css`、`script.js`：原有个人页面与导航。
-- `companion.css`、`client/`：EKU 渲染、骨骼姿态、页面动作、聊天和管理面板。
-- `server/`：管理员认证、受限会话、DeepSeek 代理、请求校验、限流和持久设置。
-- `scripts/setup.mjs`：安全的终端配置向导。
-- `scripts/build.mjs`：生成只包含公开内容的 `dist/`。
-- `public/models/eku.glb`：本地转换的实际 EKU 模型，随部署包交付，未纳入公开 Git 仓库。
-- `tests/`：导航、动作边界、认证和 API 回归测试。
-- `deploy/`：服务器部署说明与配置示例。
-
-旧版游戏账号绑定仍然保持移除；新管理员登录使用服务器校验，不采用旧版前端密码或 localStorage 登录标记。
+在仓库目录运行：
 
 ```sh
-npm test
-npm run build
+python -m http.server 8000 --bind 127.0.0.1
 ```
+
+打开 http://127.0.0.1:8000/ 。直接打开 `index.html` 也可以浏览正文与使用锚点导航。
+
+## 文件说明
+
+- `index.html`：个人资料、游戏介绍、联系方式和页面元信息。
+- `style.css`：深色主题、响应式布局、键盘焦点与减少动态效果设置。
+- `script.js`：移动端导航、当前章节提示、年份更新及旧版浏览器数据清理。
+- `User_/`：原有头像和白子图片。
+- `CNAME`：原有 GitHub Pages 自定义域名。
+- `tests/navigation.test.cjs`：导航及旧版数据清理的回归测试。
+
+## 维护
+
+编辑 `index.html` 更新学校、年级、比赛经历、游戏时长和联系方式。这些资料均为静态内容，不会自动同步。页面不依赖外部字体、图标库或第三方游戏接口；JavaScript 不可用时，正文、导航与邮箱链接仍可使用。
+
+账号绑定板块、隐藏管理员登录、账号数据文件及每日同步工作流已移除。新版仅尝试删除本站以前使用的两个浏览器存储键，不会读取账号资料，也不会清空其他本地数据。仓库历史及 GitHub 中已有的 Secrets 不受此代码修改影响。
+
+## 检查
+
+需要 Node.js 18 或更新版本：
+
+```sh
+node --check script.js
+node --test tests/navigation.test.cjs
+```
+
+将审核后的修改合并至 `master`，并沿用仓库已有的 GitHub Pages 发布设置。仓库中的 DNS 配置文档是历史部署参考；`EMAILJS_SETUP.md` 是已停用联系表单的历史说明，当前页面没有该表单。
