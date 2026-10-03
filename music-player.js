@@ -19,6 +19,12 @@
   let audioContext = null;
   let reverbEnabled = false;
 
+  function effectPlaybackStatus() {
+    if (!reverbEnabled) return "正在播放 · 当前浏览器未启用音效";
+    if (!audioContext || audioContext.state !== "running") return "正在播放 · 手机浏览器未启动音效";
+    return "正在播放 · 重低音 / 混响已开启";
+  }
+
   function connectReverb() {
     if (audioContext) return reverbEnabled;
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -31,8 +37,8 @@
       source.connect(audioContext.destination);
       const bass = audioContext.createBiquadFilter();
       bass.type = "lowshelf";
-      bass.frequency.value = 105;
-      bass.gain.value = 7;
+      bass.frequency.value = mobile.matches ? 150 : 105;
+      bass.gain.value = mobile.matches ? 9 : 7;
       const dry = audioContext.createGain();
       const convolver = audioContext.createConvolver();
       const wet = audioContext.createGain();
@@ -51,8 +57,8 @@
       }
 
       convolver.buffer = impulse;
-      dry.gain.value = 0.84;
-      wet.gain.value = 0.26;
+      dry.gain.value = mobile.matches ? 0.76 : 0.84;
+      wet.gain.value = mobile.matches ? 0.4 : 0.26;
       compressor.threshold.value = -12;
       compressor.knee.value = 10;
       compressor.ratio.value = 4;
@@ -153,7 +159,7 @@
   });
   audio.addEventListener("playing", () => {
     box.classList.add("is-playing");
-    status.textContent = reverbEnabled ? "正在播放 · 重低音 / 混响已开启" : "正在播放完整音源";
+    status.textContent = effectPlaybackStatus();
   });
   audio.addEventListener("waiting", () => {
     if (!audio.paused) {
@@ -181,10 +187,28 @@
 
   play.addEventListener("click", async () => {
     if (audio.paused) {
-      const hasReverb = connectReverb();
+      connectReverb();
       try {
-        if (hasReverb && audioContext.state === "suspended") await audioContext.resume();
-        await audio.play();
+        // Start both APIs directly in the tap handler so mobile browsers keep
+        // the user-gesture permission for Web Audio and HTML media playback.
+        let resumePromise = Promise.resolve(true);
+        if (audioContext && audioContext.state !== "running") {
+          try {
+            resumePromise = audioContext.resume().then(() => true, () => false);
+          } catch (_) {
+            resumePromise = Promise.resolve(false);
+          }
+        }
+        const playbackPromise = audio.play();
+        await playbackPromise;
+        const resumed = await resumePromise;
+        if (!audio.paused) {
+          status.textContent = reverbEnabled && resumed && audioContext?.state === "running"
+            ? effectPlaybackStatus()
+            : reverbEnabled
+              ? "正在播放 · 手机浏览器未启动音效"
+              : "正在播放 · 当前浏览器未启用音效";
+        }
       } catch (_) {
         status.textContent = "播放失败，请重试";
       }
