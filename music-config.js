@@ -4,7 +4,7 @@ window.SITE_MUSIC = {
   artist: "TWERL · Ekko & Sidetrack",
   credit: "feat. Indy Skies",
   cover: "music/under-bright-lights.jpg",
-  duration: 0,
+  duration: 228,
   audioSrc: "music/under-bright-lights.mp3",
   sourcePage: "https://soundcloud.com/nightmoderecs/underbrightlights",
 };

@@ -126,11 +126,15 @@
 
   sourceLink.href = config.sourcePage || "https://soundcloud.com/nightmoderecs/underbrightlights";
   sourceLink.textContent = "NIGHTMODE · 曲目信息";
-  duration.textContent = formatTime(Number(config.duration) || 0);
-  status.textContent = "正在加载完整音源…";
+  const configuredDuration = Number(config.duration);
+  duration.textContent = formatTime(configuredDuration || 0);
+  status.textContent = "点击播放即可加载音源";
   audio.preload = "metadata";
   audio.volume = 0.65;
   audio.src = config.audioSrc || "music/under-bright-lights.mp3";
+  // Mobile browsers may defer metadata preloading until a user gesture.
+  // Let visitors start playback immediately; enable seeking after metadata arrives.
+  play.disabled = false;
 
   audio.addEventListener("loadedmetadata", () => {
     if (!Number.isFinite(audio.duration) || audio.duration <= 0) return;
@@ -142,9 +146,20 @@
     updatePosition();
   });
   audio.addEventListener("play", () => {
-    box.classList.add("is-active", "is-playing");
+    box.classList.add("is-active");
+    box.classList.remove("is-playing");
     play.setAttribute("aria-label", "暂停");
+    status.textContent = "正在加载完整音源…";
+  });
+  audio.addEventListener("playing", () => {
+    box.classList.add("is-playing");
     status.textContent = reverbEnabled ? "正在播放 · 重低音 / 混响已开启" : "正在播放完整音源";
+  });
+  audio.addEventListener("waiting", () => {
+    if (!audio.paused) {
+      box.classList.remove("is-playing");
+      status.textContent = "音源缓冲中…";
+    }
   });
   audio.addEventListener("pause", () => {
     box.classList.remove("is-playing");
