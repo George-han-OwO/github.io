@@ -62,6 +62,7 @@ const sections = links
   .filter(Boolean);
 let scrollPending = false;
 function updateActiveLink() {
+  document.documentElement.classList.toggle("has-scrolled", window.scrollY > 8);
   let current = sections[0];
   const readingLine = window.innerHeight * 0.3;
   for (const section of sections) {
