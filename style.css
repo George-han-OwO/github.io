@@ -410,7 +410,7 @@ h3 {
 }
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-top: 48px;
   padding-top: 30px;
   border-top: 1px solid var(--line);
@@ -684,6 +684,9 @@ h3 {
     padding-top: 36px;
     padding-right: 0;
   }
+  body:has(.music-box[open]) .hero {
+    padding-top: clamp(200px, 28vh, 260px);
+  }
   .hero-copy {
     padding: 0;
   }
@@ -720,6 +723,7 @@ h3 {
   }
   .hero-extra-image::before {
     background-attachment: scroll;
+    transition: opacity 0.7s ease;
   }
   .hero-bottom > span {
     font-size: 10px;
@@ -742,12 +746,20 @@ h3 {
     padding: 28px 0 0;
   }
   .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     margin-top: 32px;
     padding-top: 24px;
     gap: 12px;
   }
   .stats > div {
     padding-inline: 12px;
+  }
+  .stats > div:nth-child(2n) {
+    border-right: 0;
+  }
+  .stats > div:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
   }
   .stats dd {
     font-size: 38px;
